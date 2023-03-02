@@ -1,5 +1,6 @@
 import {Component} from 'react'
-import {Link} from 'react-router-dom'
+import Cookies from 'js-cookie'
+import {Link, withRouter} from 'react-router-dom'
 import {FaSearch} from 'react-icons/fa'
 import {CgMenu} from 'react-icons/cg'
 import {AiFillCloseCircle} from 'react-icons/ai'
@@ -8,6 +9,12 @@ import './index.css'
 
 class Header extends Component {
   state = {searchValue: ''}
+
+  onLogout = () => {
+    Cookies.remove('jwt_token')
+    const {history} = this.props
+    history.push('/')
+  }
 
   render() {
     const {searchValue} = this.state
@@ -34,7 +41,7 @@ class Header extends Component {
               <input
                 type="search"
                 className="search-input"
-                placeholder="SearchCaption"
+                placeholder="Search Caption"
                 value={searchValue}
                 onChange={e => this.setState({searchValue: e.target.value})}
               />
@@ -53,7 +60,11 @@ class Header extends Component {
                 <li className="nav-item">Profile</li>
               </Link>
             </ul>
-            <button className="logout-btn" type="button">
+            <button
+              className="logout-btn"
+              type="button"
+              onClick={this.onLogout}
+            >
               Logout
             </button>
             <button className="close-ham-btn display-lg-none" type="button">
@@ -66,4 +77,4 @@ class Header extends Component {
   }
 }
 
-export default Header
+export default withRouter(Header)

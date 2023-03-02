@@ -1,6 +1,9 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 import Header from '../Header'
+import StoriesList from '../StoriesList'
+import PostsList from '../PostsList'
 
 import './index.css'
 
@@ -46,14 +49,14 @@ class Home extends Component {
   }
 
   onResponseStoriesSuccess = data => {
-    const updatedStoris = data.users_stories.map(eachStory => ({
+    const updatedStories = data.users_stories.map(eachStory => ({
       userId: eachStory.user_id,
       userName: eachStory.user_name,
       storyUrl: eachStory.story_url,
     }))
 
     this.setState({
-      storiesList: updatedStoris,
+      storiesList: updatedStories,
       storiesStatus: statusConst.success,
     })
   }
@@ -74,7 +77,6 @@ class Home extends Component {
 
     if (response.ok) {
       this.onResponsePostsSuccess(data)
-      console.log(data)
     } else {
       this.setState({postsStatus: statusConst.failure})
     }
@@ -105,13 +107,98 @@ class Home extends Component {
     })
   }
 
+  // Render the posts based on status if stories api succeeds
+  renderPostsView = () => {
+    const {postsList, postsStatus} = this.state
+
+    switch (postsStatus) {
+      case statusConst.inProgress:
+        return this.renderLoader()
+      case statusConst.success:
+        return <PostsList postsList={postsList} />
+      case statusConst.failure:
+        return (
+          <>
+            <img
+              className="post-error-img"
+              src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677764087/alert-triangle_kppqoh.png"
+              alt="error view"
+            />
+            <p className="post-went-wrong-text">
+              Something went wrong. Please try again.
+            </p>
+            <button
+              className="try-again-btn"
+              type="button"
+              onClick={this.getPosts}
+            >
+              Try again
+            </button>
+          </>
+        )
+      default:
+        return null
+    }
+  }
+
+  // Render Home page content if stories api succeeds
+  renderContent = () => {
+    const {storiesList} = this.state
+
+    return (
+      <>
+        <StoriesList storiesList={storiesList} />
+        {this.renderPostsView()}
+      </>
+    )
+  }
+
+  // Render Loader if api is still fetching
+  renderLoader = () => (
+    // Change data-testid to testid for testing
+    <div className="loader-container" data-testid="loader">
+      <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
+    </div>
+  )
+
+  // Render failure view if stories api fails
+  renderFailureView = () => (
+    <div className="failure-container">
+      <img
+        className="failure-img"
+        src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677758755/Group_7522_wrwjzj.png"
+        alt="failure view"
+      />
+      <h1 className="went-wrong-text">
+        Something went wrong. Please try again
+      </h1>
+      <button className="try-again-btn" type="button" onClick={this.getStories}>
+        Try again
+      </button>
+    </div>
+  )
+
+  // conditional rendering
+  renderHomeView = () => {
+    const {storiesStatus} = this.state
+
+    switch (storiesStatus) {
+      case statusConst.inProgress:
+        return this.renderLoader()
+      case statusConst.success:
+        return this.renderContent()
+      case statusConst.failure:
+        return this.renderFailureView()
+      default:
+        return null
+    }
+  }
+
   render() {
     return (
       <div className="home-container">
-        <div className="home-responsive-container">
-          <Header />
-          {/* {this.homeView()} */}
-        </div>
+        <Header />
+        <div className="home-responsive-container">{this.renderHomeView()}</div>
       </div>
     )
   }
