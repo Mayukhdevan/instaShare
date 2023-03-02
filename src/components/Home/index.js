@@ -17,14 +17,17 @@ const statusConst = {
 class Home extends Component {
   state = {
     storiesList: [],
-    storiesStatus: statusConst.inProgress,
+    storiesStatus: statusConst.initial,
     postsList: [],
-    postsStatus: statusConst.inProgress,
+    postsStatus: statusConst.initial,
   }
 
   componentDidMount() {
-    this.getStories()
-    this.getPosts()
+    const mainFunc = async () => {
+      this.getStories()
+      this.getPosts()
+    }
+    mainFunc()
   }
 
   getStories = async () => {
@@ -44,7 +47,6 @@ class Home extends Component {
     if (response.ok) {
       this.onResponseStoriesSuccess(data)
     } else {
-      console.log(data)
       this.setState({storiesStatus: statusConst.failure})
     }
   }
