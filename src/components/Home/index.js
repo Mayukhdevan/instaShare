@@ -17,9 +17,9 @@ const statusConst = {
 class Home extends Component {
   state = {
     storiesList: [],
-    storiesStatus: statusConst.initial,
+    storiesStatus: statusConst.inProgress,
     postsList: [],
-    postsStatus: statusConst.initial,
+    postsStatus: statusConst.inProgress,
   }
 
   componentDidMount() {
@@ -44,6 +44,7 @@ class Home extends Component {
     if (response.ok) {
       this.onResponseStoriesSuccess(data)
     } else {
+      console.log(data)
       this.setState({storiesStatus: statusConst.failure})
     }
   }
@@ -84,7 +85,7 @@ class Home extends Component {
 
   onResponsePostsSuccess = data => {
     const updatedPosts = data.posts.map(eachPost => ({
-      post_id: eachPost.post_id,
+      postId: eachPost.post_id,
       userId: eachPost.user_id,
       userName: eachPost.user_name,
       profilePic: eachPost.profile_pic,
@@ -92,7 +93,7 @@ class Home extends Component {
         imageUrl: eachPost.post_details.image_url,
         caption: eachPost.post_details.caption,
       },
-      likeCount: eachPost.like_count,
+      likesCount: eachPost.likes_count,
       comments: eachPost.comments.map(eachComment => ({
         userName: eachComment.user_name,
         userId: eachComment.user_id,
@@ -113,7 +114,7 @@ class Home extends Component {
 
     switch (postsStatus) {
       case statusConst.inProgress:
-        return this.renderLoader()
+        return this.renderPostsLoader()
       case statusConst.success:
         return <PostsList postsList={postsList} />
       case statusConst.failure:
@@ -122,7 +123,7 @@ class Home extends Component {
             <img
               className="post-error-img"
               src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677764087/alert-triangle_kppqoh.png"
-              alt="error view"
+              alt="failure view"
             />
             <p className="post-went-wrong-text">
               Something went wrong. Please try again.
@@ -141,6 +142,13 @@ class Home extends Component {
     }
   }
 
+  renderPostsLoader = () => (
+    // Change data-testid to testid for testing
+    <div className="loader-container" data-testid="loader">
+      <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
+    </div>
+  )
+
   // Render Home page content if stories api succeeds
   renderContent = () => {
     const {storiesList} = this.state
@@ -154,7 +162,7 @@ class Home extends Component {
   }
 
   // Render Loader if api is still fetching
-  renderLoader = () => (
+  renderStoriesLoader = () => (
     // Change data-testid to testid for testing
     <div className="loader-container" data-testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
@@ -169,9 +177,7 @@ class Home extends Component {
         src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677758755/Group_7522_wrwjzj.png"
         alt="failure view"
       />
-      <h1 className="went-wrong-text">
-        Something went wrong. Please try again
-      </h1>
+      <p className="went-wrong-text">Something went wrong. Please try again</p>
       <button className="try-again-btn" type="button" onClick={this.getStories}>
         Try again
       </button>
@@ -184,7 +190,7 @@ class Home extends Component {
 
     switch (storiesStatus) {
       case statusConst.inProgress:
-        return this.renderLoader()
+        return this.renderStoriesLoader()
       case statusConst.success:
         return this.renderContent()
       case statusConst.failure:

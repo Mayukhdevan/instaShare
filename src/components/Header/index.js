@@ -13,7 +13,7 @@ class Header extends Component {
   onLogout = () => {
     Cookies.remove('jwt_token')
     const {history} = this.props
-    history.push('/')
+    history.push('/login')
   }
 
   render() {
@@ -27,7 +27,7 @@ class Header extends Component {
               <img
                 className="header-logo"
                 src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677392496/InstaShareAssets/Login/Standard_Collection_8_sahaye.png"
-                alt="website-logo"
+                alt="website logo"
               />
               <h1 className="header-logo-text">Insta Share</h1>
             </div>
