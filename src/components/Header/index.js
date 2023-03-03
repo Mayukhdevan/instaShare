@@ -13,7 +13,7 @@ class Header extends Component {
   onLogout = () => {
     Cookies.remove('jwt_token')
     const {history} = this.props
-    history.push('/login')
+    history.replace('/login')
   }
 
   render() {
@@ -24,11 +24,13 @@ class Header extends Component {
         <div className="header-responsive-container">
           <div className="logo-ham-container">
             <div className="logo-container">
-              <img
-                className="header-logo"
-                src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677392496/InstaShareAssets/Login/Standard_Collection_8_sahaye.png"
-                alt="website logo"
-              />
+              <Link to="/Home" className="nav-links">
+                <img
+                  className="header-logo"
+                  src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677392496/InstaShareAssets/Login/Standard_Collection_8_sahaye.png"
+                  alt="website logo"
+                />
+              </Link>
               <h1 className="header-logo-text">Insta Share</h1>
             </div>
             <button className="expand-ham-btn display-lg-none" type="button">

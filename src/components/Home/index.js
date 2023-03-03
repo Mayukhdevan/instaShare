@@ -146,7 +146,7 @@ class Home extends Component {
 
   renderPostsLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" data-testid="loader">
+    <div className="loader-container" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -166,7 +166,7 @@ class Home extends Component {
   // Render Loader if api is still fetching
   renderStoriesLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" data-testid="loader">
+    <div className="loader-container" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -206,7 +206,7 @@ class Home extends Component {
     return (
       <div className="home-container">
         <Header />
-        <div className="home-responsive-container">{this.renderHomeView()}</div>
+        <div className="responsive-container">{this.renderHomeView()}</div>
       </div>
     )
   }

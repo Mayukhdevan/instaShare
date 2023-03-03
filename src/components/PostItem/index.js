@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import {Link} from 'react-router-dom'
 import {BsHeart} from 'react-icons/bs'
 import {FcLike} from 'react-icons/fc'
 import {FaRegComment} from 'react-icons/fa'
@@ -47,7 +48,7 @@ class PostItem extends Component {
         <button
           className="like-unlike-btn"
           type="button"
-          data-testid="unLikeIcon"
+          testid="unLikeIcon"
           onClick={this.toggleLike}
         >
           <FcLike className="post-icons" />
@@ -58,7 +59,7 @@ class PostItem extends Component {
       <button
         className="like-unlike-btn"
         type="button"
-        data-testid="likeIcon"
+        testid="likeIcon"
         onClick={this.toggleLike}
       >
         <BsHeart className="post-icons" />
@@ -71,6 +72,7 @@ class PostItem extends Component {
     const {postItem} = this.props
 
     const {
+      userId,
       userName,
       profilePic,
       postDetails,
@@ -89,7 +91,9 @@ class PostItem extends Component {
             src={profilePic}
             alt="post author profile"
           />
-          <p className="post-username">{userName}</p>
+          <Link to={`/users/${userId}`}>
+            <p className="post-username">{userName}</p>
+          </Link>
         </div>
         <img className="post-img" src={imageUrl} alt="post" />
         <div className="like-cmt-share-container">

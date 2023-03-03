@@ -16,7 +16,7 @@ const App = () => (
     <ProtectedRoute exact path="/" component={Home} />
     <ProtectedRoute exact path="/search" component={Search} />
     <ProtectedRoute exact path="/my-profile" component={MyProfile} />
-    <ProtectedRoute exact path="/users/:id" component={UserProfile} />
+    <ProtectedRoute exact path="/users/:userId" component={UserProfile} />
     <Route path="/bad-path" component={NotFound} />
     <Redirect to="bad-path" />
   </Switch>
