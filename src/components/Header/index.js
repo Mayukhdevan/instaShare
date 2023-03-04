@@ -16,17 +16,9 @@ class Header extends Component {
     history.replace('/login')
   }
 
-  //   This method will trigger search api in home route
-  searchPosts = () => {
-    const {searchValue} = this.state
-    const {getSearchResult, history} = this.props
-    history.push('/')
-    getSearchResult(searchValue)
-  }
-
   render() {
     const {searchValue} = this.state
-    const {disableSearchView, enableSearchView} = this.props
+    const {disableSearchView} = this.props
 
     return (
       <div className="header-container">
@@ -56,11 +48,7 @@ class Header extends Component {
                 value={searchValue}
                 onChange={e => this.setState({searchValue: e.target.value})}
               />
-              <button
-                className="search-btn"
-                type="button"
-                onClick={this.searchPosts}
-              >
+              <button className="search-btn" type="button">
                 <FaSearch className="search-icon" testid="searchIcon" />
               </button>
             </div>
@@ -69,9 +57,7 @@ class Header extends Component {
                 <li className="nav-item">Home</li>
               </Link>
 
-              <Link to="/" className="nav-links" onClick={enableSearchView}>
-                <li className="nav-item">Search</li>
-              </Link>
+              <li className="nav-item">Search</li>
 
               <Link to="/my-profile" className="nav-links">
                 <li className="nav-item">Profile</li>

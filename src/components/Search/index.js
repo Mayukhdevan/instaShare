@@ -1,5 +1,3 @@
-import Header from '../Header'
-import PostsList from '../PostsList'
 import './index.css'
 
 const Search = () => (
