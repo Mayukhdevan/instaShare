@@ -4,6 +4,7 @@ import Loader from 'react-loader-spinner'
 import Header from '../Header'
 import StoriesList from '../StoriesList'
 import PostsList from '../PostsList'
+import Search from '../Search'
 
 import './index.css'
 
@@ -20,6 +21,7 @@ class Home extends Component {
     storiesStatus: statusConst.initial,
     postsList: [],
     postsStatus: statusConst.initial,
+    searchView: null,
   }
 
   componentDidMount() {
@@ -30,8 +32,32 @@ class Home extends Component {
     mainFunc()
   }
 
+  disableSearchView = () => this.setState({searchView: false})
+
+  enableSearchView = () => this.setState({searchView: true})
+
+  // This method converts snake case to camel case
+  postCamelCaseConvertor = data =>
+    data.posts.map(eachPost => ({
+      postId: eachPost.post_id,
+      userId: eachPost.user_id,
+      userName: eachPost.user_name,
+      profilePic: eachPost.profile_pic,
+      postDetails: {
+        imageUrl: eachPost.post_details.image_url,
+        caption: eachPost.post_details.caption,
+      },
+      likesCount: eachPost.likes_count,
+      comments: eachPost.comments.map(eachComment => ({
+        userName: eachComment.user_name,
+        userId: eachComment.user_id,
+        comment: eachComment.comment,
+      })),
+      createdAt: eachPost.created_at,
+    }))
+
   getStories = async () => {
-    this.setState({storiesStatus: statusConst.inProgress})
+    this.setState({storiesStatus: statusConst.inProgress, searchView: false})
 
     const jwtToken = Cookies.get('jwt_token')
     const storiesApi = 'https://apis.ccbp.in/insta-share/stories'
@@ -86,23 +112,7 @@ class Home extends Component {
   }
 
   onResponsePostsSuccess = data => {
-    const updatedPosts = data.posts.map(eachPost => ({
-      postId: eachPost.post_id,
-      userId: eachPost.user_id,
-      userName: eachPost.user_name,
-      profilePic: eachPost.profile_pic,
-      postDetails: {
-        imageUrl: eachPost.post_details.image_url,
-        caption: eachPost.post_details.caption,
-      },
-      likesCount: eachPost.likes_count,
-      comments: eachPost.comments.map(eachComment => ({
-        userName: eachComment.user_name,
-        userId: eachComment.user_id,
-        comment: eachComment.comment,
-      })),
-      createdAt: eachPost.created_at,
-    }))
+    const updatedPosts = this.postCamelCaseConvertor(data)
 
     this.setState({
       postsList: updatedPosts,
@@ -146,14 +156,18 @@ class Home extends Component {
 
   renderPostsLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" testid="loader">
+    <div className="loader-container" data-testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
 
   // Render Home page content if stories api succeeds
   renderContent = () => {
-    const {storiesList} = this.state
+    const {storiesList, searchView} = this.state
+
+    if (searchView) {
+      return <Search />
+    }
 
     return (
       <>
@@ -166,7 +180,7 @@ class Home extends Component {
   // Render Loader if api is still fetching
   renderStoriesLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" testid="loader">
+    <div className="loader-container" data-testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -187,7 +201,7 @@ class Home extends Component {
   )
 
   // conditional rendering
-  renderHomeView = () => {
+  renderHomePage = () => {
     const {storiesStatus} = this.state
 
     switch (storiesStatus) {
@@ -202,11 +216,46 @@ class Home extends Component {
     }
   }
 
+  // Search API request
+  onSearchSuccess = data => {
+    const updatedData = this.postCamelCaseConvertor(data)
+    this.setState({searchResult: updatedData})
+  }
+
+  getSearchResult = async searchValue => {
+    this.setState({searchView: true})
+
+    const jwtToken = Cookies.get('jwt_token')
+    const searchApi = `https://apis.ccbp.in/insta-share/posts?search=${searchValue}`
+    const options = {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+
+    const response = await fetch(searchApi, options)
+    const data = await response.json()
+
+    if (response.ok) {
+      this.onSearchSuccess(data)
+    }
+
+    return 'Failed'
+  }
+
   render() {
+    const {searchResult} = this.state
+    console.log(searchResult)
+
     return (
       <div className="home-container">
-        <Header />
-        <div className="responsive-container">{this.renderHomeView()}</div>
+        <Header
+          getSearchResult={this.getSearchResult}
+          searchResult={searchResult}
+          disableSearchView={this.disableSearchView}
+          enableSearchView={this.enableSearchView}
+        />
+        <div className="responsive-container">{this.renderHomePage()}</div>
       </div>
     )
   }
