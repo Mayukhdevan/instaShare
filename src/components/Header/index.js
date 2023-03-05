@@ -13,12 +13,16 @@ class Header extends Component {
   toggleSearchScreen = () => {
     const {onToggleSearchScreen} = this.props
     this.setState(prevState => ({enableSearch: !prevState.enableSearch}))
-    onToggleSearchScreen()
+    if (onToggleSearchScreen !== undefined) {
+      onToggleSearchScreen()
+    }
   }
 
   showHomeScreen = () => {
     const {onShowHomeScreen} = this.props
-    onShowHomeScreen()
+    if (onShowHomeScreen !== undefined) {
+      onShowHomeScreen()
+    }
   }
 
   onLogout = () => {
@@ -30,7 +34,9 @@ class Header extends Component {
   onSearchCaption = () => {
     const {searchValue} = this.state
     const {getSearchResult} = this.props
-    getSearchResult(searchValue)
+    if (getSearchResult !== undefined) {
+      getSearchResult(searchValue)
+    }
   }
 
   render() {
@@ -77,16 +83,15 @@ class Header extends Component {
               </button>
             </div>
             <ul className="nav-item-list">
-              <Link to="/" className="nav-links" onClick={this.showHomeScreen}>
-                <li className="nav-item">Home</li>
+              <Link to="/" className="nav-links">
+                <li className="nav-item" onClick={this.showHomeScreen}>
+                  Home
+                </li>
               </Link>
-              <Link
-                to="/"
-                className="nav-links"
-                onClick={this.toggleSearchScreen}
-              >
-                <li className="nav-item">Search</li>
-              </Link>
+
+              <li className="nav-item" onClick={this.toggleSearchScreen}>
+                Search
+              </li>
 
               <Link to="/my-profile" className="nav-links">
                 <li className="nav-item">Profile</li>

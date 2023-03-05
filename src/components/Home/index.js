@@ -20,6 +20,7 @@ class Home extends Component {
     responseStatus: statusConst.initial,
     searchResult: [],
     searchView: false,
+    searchValue: '',
   }
 
   onSearchSuccess = data => {
@@ -48,7 +49,7 @@ class Home extends Component {
 
   getSearchResult = async searchValue => {
     if (searchValue !== '') {
-      this.setState({responseStatus: statusConst.inProgress})
+      this.setState({responseStatus: statusConst.inProgress, searchValue})
 
       const jwtToken = Cookies.get('jwt_token')
       const searchApi = `https://apis.ccbp.in/insta-share/posts?search=${searchValue}`
@@ -96,28 +97,34 @@ class Home extends Component {
 
   // Change data-testid to testid for testing
   renderLoader = () => (
-    <div className="loader-container" testid="loader">
+    <div className="loader-container" data-testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
 
-  renderFailureView = () => (
-    <div className="failure-container">
-      <img
-        className="failure-img"
-        src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677758755/Group_7522_wrwjzj.png"
-        alt="failure view"
-      />
-      <p className="went-wrong-text">Something went wrong. Please try again</p>
-      <button
-        className="try-again-btn"
-        type="button"
-        onClick={this.getSearchResult}
-      >
-        Try again
-      </button>
-    </div>
-  )
+  renderFailureView = () => {
+    const {searchValue} = this.state
+
+    return (
+      <div className="failure-container">
+        <img
+          className="failure-img"
+          src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677758755/Group_7522_wrwjzj.png"
+          alt="failure view"
+        />
+        <p className="went-wrong-text">
+          Something went wrong. Please try again
+        </p>
+        <button
+          className="try-again-btn"
+          type="button"
+          onClick={() => this.getSearchResult(searchValue)}
+        >
+          Try again
+        </button>
+      </div>
+    )
+  }
 
   renderHomeView = () => {
     const {responseStatus} = this.state

@@ -48,7 +48,7 @@ class PostItem extends Component {
         <button
           className="like-unlike-btn"
           type="button"
-          testid="unLikeIcon"
+          data-testid="unLikeIcon"
           onClick={this.toggleLike}
         >
           <FcLike className="post-icons" />
@@ -59,7 +59,7 @@ class PostItem extends Component {
       <button
         className="like-unlike-btn"
         type="button"
-        testid="likeIcon"
+        data-testid="likeIcon"
         onClick={this.toggleLike}
       >
         <BsHeart className="post-icons" />
