@@ -8,7 +8,7 @@ import {AiFillCloseCircle} from 'react-icons/ai'
 import './index.css'
 
 class Header extends Component {
-  state = {searchValue: '', enableSearch: false}
+  state = {searchValue: '', enableSearch: false, isNavExpanded: false}
 
   toggleSearchScreen = () => {
     const {onToggleSearchScreen} = this.props
@@ -39,8 +39,12 @@ class Header extends Component {
     }
   }
 
+  toggleHamMenu = () =>
+    this.setState(prevState => ({isNavExpanded: !prevState.isNavExpanded}))
+
   render() {
-    const {searchValue, enableSearch} = this.state
+    const {searchValue, enableSearch, isNavExpanded} = this.state
+    const hamClass = isNavExpanded ? '' : 'hide-nav'
 
     return (
       <div className="header-container">
@@ -56,12 +60,16 @@ class Header extends Component {
               </Link>
               <h1 className="header-logo-text">Insta Share</h1>
             </div>
-            <button className="expand-ham-btn display-lg-none" type="button">
+            <button
+              className="expand-ham-btn display-lg-none"
+              type="button"
+              onClick={this.toggleHamMenu}
+            >
               <CgMenu className="ham-icon" />
             </button>
           </div>
 
-          <div className="nav-container">
+          <div className={`nav-container ${hamClass}`}>
             <div
               className={`search-field-container ${
                 !enableSearch && 'd-hidden'
@@ -84,29 +92,45 @@ class Header extends Component {
             </div>
             <ul className="nav-item-list">
               <Link to="/" className="nav-links">
-                <li className="nav-item" onClick={this.showHomeScreen}>
+                <li
+                  className="nav-item nav-effect"
+                  onClick={this.showHomeScreen}
+                >
                   Home
                 </li>
               </Link>
 
-              <li className="nav-item" onClick={this.toggleSearchScreen}>
+              <li
+                className="nav-item nav-effect"
+                onClick={this.toggleSearchScreen}
+              >
                 Search
               </li>
 
               <Link to="/my-profile" className="nav-links">
-                <li className="nav-item">Profile</li>
+                <li className="nav-item nav-effect">Profile</li>
               </Link>
+
+              <li className="nav-item">
+                <button
+                  className="logout-btn"
+                  type="button"
+                  onClick={this.onLogout}
+                >
+                  Logout
+                </button>
+              </li>
+
+              <li className="nav-item">
+                <button
+                  className="close-ham-btn display-lg-none"
+                  type="button"
+                  onClick={this.toggleHamMenu}
+                >
+                  <AiFillCloseCircle className="close-icon" />
+                </button>
+              </li>
             </ul>
-            <button
-              className="logout-btn"
-              type="button"
-              onClick={this.onLogout}
-            >
-              Logout
-            </button>
-            <button className="close-ham-btn display-lg-none" type="button">
-              <AiFillCloseCircle className="close-icon" />
-            </button>
           </div>
         </div>
       </div>

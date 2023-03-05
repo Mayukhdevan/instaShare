@@ -1,0 +1,18 @@
+.story-item-container {
+  padding: 0.5rem;
+  text-align: center;
+}
+.story-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  margin-bottom: 0.6rem;
+}
+.story-name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: calc(1rem - 2px);
+  color: #262626;
+  font-weight: 400;
+}
