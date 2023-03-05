@@ -48,7 +48,7 @@ class PostItem extends Component {
         <button
           className="like-unlike-btn"
           type="button"
-          data-testid="unLikeIcon"
+          testid="unLikeIcon"
           onClick={this.toggleLike}
         >
           <FcLike className="post-icons" />
@@ -59,7 +59,7 @@ class PostItem extends Component {
       <button
         className="like-unlike-btn"
         type="button"
-        data-testid="likeIcon"
+        testid="likeIcon"
         onClick={this.toggleLike}
       >
         <BsHeart className="post-icons" />
@@ -112,8 +112,10 @@ class PostItem extends Component {
         <ul className="cmts-list">
           {comments.map(eachCmt => (
             <li className="cmt-item" key={eachCmt.userId}>
-              <p className="cmt-user-name">{eachCmt.userName}</p>
-              <p className="cmt-text">{eachCmt.comment}</p>
+              <p className="cmt-text">
+                <span className="cmt-user-name">{eachCmt.userName}</span>
+                {eachCmt.comment}
+              </p>
             </li>
           ))}
         </ul>

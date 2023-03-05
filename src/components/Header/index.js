@@ -8,7 +8,18 @@ import {AiFillCloseCircle} from 'react-icons/ai'
 import './index.css'
 
 class Header extends Component {
-  state = {searchValue: ''}
+  state = {searchValue: '', enableSearch: false}
+
+  toggleSearchScreen = () => {
+    const {onToggleSearchScreen} = this.props
+    this.setState(prevState => ({enableSearch: !prevState.enableSearch}))
+    onToggleSearchScreen()
+  }
+
+  showHomeScreen = () => {
+    const {onShowHomeScreen} = this.props
+    onShowHomeScreen()
+  }
 
   onLogout = () => {
     Cookies.remove('jwt_token')
@@ -16,16 +27,21 @@ class Header extends Component {
     history.replace('/login')
   }
 
-  render() {
+  onSearchCaption = () => {
     const {searchValue} = this.state
-    const {disableSearchView} = this.props
+    const {getSearchResult} = this.props
+    getSearchResult(searchValue)
+  }
+
+  render() {
+    const {searchValue, enableSearch} = this.state
 
     return (
       <div className="header-container">
         <div className="header-responsive-container">
           <div className="logo-ham-container">
             <div className="logo-container">
-              <Link to="/Home" className="nav-links">
+              <Link to="/" className="nav-links">
                 <img
                   className="header-logo"
                   src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677392496/InstaShareAssets/Login/Standard_Collection_8_sahaye.png"
@@ -40,7 +56,11 @@ class Header extends Component {
           </div>
 
           <div className="nav-container">
-            <div className="search-field-container display-lg-none">
+            <div
+              className={`search-field-container ${
+                !enableSearch && 'd-hidden'
+              }`}
+            >
               <input
                 type="search"
                 className="search-input"
@@ -48,16 +68,25 @@ class Header extends Component {
                 value={searchValue}
                 onChange={e => this.setState({searchValue: e.target.value})}
               />
-              <button className="search-btn" type="button">
+              <button
+                className="search-btn"
+                type="button"
+                onClick={this.onSearchCaption}
+              >
                 <FaSearch className="search-icon" testid="searchIcon" />
               </button>
             </div>
             <ul className="nav-item-list">
-              <Link to="/" className="nav-links" onClick={disableSearchView}>
+              <Link to="/" className="nav-links" onClick={this.showHomeScreen}>
                 <li className="nav-item">Home</li>
               </Link>
-
-              <li className="nav-item">Search</li>
+              <Link
+                to="/"
+                className="nav-links"
+                onClick={this.toggleSearchScreen}
+              >
+                <li className="nav-item">Search</li>
+              </Link>
 
               <Link to="/my-profile" className="nav-links">
                 <li className="nav-item">Profile</li>

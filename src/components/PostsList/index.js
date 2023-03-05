@@ -72,10 +72,9 @@ class PostsList extends Component {
     )
   }
 
-  // Render Loader if api is still fetching
   renderLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" data-testid="loader">
+    <div className="loader-container" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )

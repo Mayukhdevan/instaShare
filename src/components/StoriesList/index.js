@@ -21,7 +21,7 @@ class StoriesList extends Component {
   }
 
   getStories = async () => {
-    this.setState({storiesStatus: statusConst.inProgress, searchView: false})
+    this.setState({storiesStatus: statusConst.inProgress})
 
     const jwtToken = Cookies.get('jwt_token')
     const storiesApi = 'https://apis.ccbp.in/insta-share/stories'
@@ -82,9 +82,9 @@ class StoriesList extends Component {
     )
   }
 
-  renderStoriesLoader = () => (
+  renderLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" data-testid="loader">
+    <div className="loader-container" testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -94,16 +94,36 @@ class StoriesList extends Component {
 
     switch (storiesStatus) {
       case statusConst.inProgress:
-        return this.renderStoriesLoader()
+        return this.renderLoader()
       case statusConst.success:
         return this.renderStoriesView()
+      case statusConst.failure:
+        return (
+          <>
+            <img
+              className="post-error-img"
+              src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677764087/alert-triangle_kppqoh.png"
+              alt="failure view"
+            />
+            <p className="post-went-wrong-text">
+              Something went wrong. Please try again.
+            </p>
+            <button
+              className="try-again-btn"
+              type="button"
+              onClick={this.getStories}
+            >
+              Try again
+            </button>
+          </>
+        )
       default:
         return null
     }
   }
 
   render() {
-    return <>{this.renderStoriesView()}</>
+    return <>{this.renderViews()}</>
   }
 }
 
