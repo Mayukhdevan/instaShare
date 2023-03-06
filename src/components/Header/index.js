@@ -116,7 +116,7 @@ class Header extends Component {
                 <button
                   className="logout-btn"
                   type="button"
-                  onClick={this.onLogout}
+                  onClick={() => setTimeout(() => this.onLogout(), 500)}
                 >
                   Logout
                 </button>
