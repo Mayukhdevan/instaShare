@@ -51,7 +51,7 @@ class PostItem extends Component {
           data-testid="unLikeIcon"
           onClick={this.toggleLike}
         >
-          <FcLike className="post-icons" />
+          <FcLike className="post-icons like-icon" />
         </button>
       )
     }
@@ -60,7 +60,11 @@ class PostItem extends Component {
         className="like-unlike-btn"
         type="button"
         data-testid="likeIcon"
-        onClick={this.toggleLike}
+        onClick={() =>
+          setTimeout(() => {
+            this.toggleLike()
+          }, 100)
+        }
       >
         <BsHeart className="post-icons" />
       </button>
@@ -86,11 +90,13 @@ class PostItem extends Component {
     return (
       <li className="post-item">
         <div className="post-avatar-title">
-          <img
-            className="post-avatar"
-            src={profilePic}
-            alt="post author profile"
-          />
+          <div className="avatar-container">
+            <img
+              className="post-avatar"
+              src={profilePic}
+              alt="post author profile"
+            />
+          </div>
           <Link to={`/users/${userId}`}>
             <p className="post-username">{userName}</p>
           </Link>

@@ -5,6 +5,7 @@
 .story-img {
   width: 70px;
   height: 70px;
+  margin: auto;
   border-radius: 100%;
   margin-bottom: 0.6rem;
 }
@@ -15,4 +16,6 @@
   font-size: calc(1rem - 2px);
   color: #262626;
   font-weight: 400;
+  padding: 1rem;
+  padding-top: 0;
 }

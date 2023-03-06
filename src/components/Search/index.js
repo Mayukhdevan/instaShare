@@ -6,7 +6,7 @@ const Search = props => {
 
   if (searchResult.length === 0 && searchView) {
     return (
-      <div className="responsive-container">
+      <div className="search-responsive-container">
         <img
           className="search-img"
           src="https://res.cloudinary.com/dem9u6dox/image/upload/v1678002895/Frame_1473_ytf8m2.png"
@@ -18,7 +18,7 @@ const Search = props => {
   }
   if (searchResult.length === 0) {
     return (
-      <div className="responsive-container">
+      <div className="search-not-found-container">
         <img
           className="search-not-found-img"
           src="https://res.cloudinary.com/dem9u6dox/image/upload/v1678003497/Group_iftyiu.png"

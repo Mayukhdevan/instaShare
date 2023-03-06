@@ -20,7 +20,6 @@
 
 .login-logo-image {
   width: 82px;
-  margin-bottom: 1rem;
 }
 
 .form-container {
@@ -35,9 +34,17 @@
 }
 
 .login-heading {
-  font-size: 1.5rem;
-  color: #262626;
+  font-family: 'Lobster';
+  font-size: 1.25rem;
   font-weight: 500;
+  background: -webkit-linear-gradient(
+    left,
+    #cf006e 56%,
+    #1472ff 56%,
+    #ff5e36 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .input-container {

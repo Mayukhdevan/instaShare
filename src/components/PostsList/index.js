@@ -74,7 +74,7 @@ class PostsList extends Component {
 
   renderLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" data-testid="loader">
+    <div className="loader-container post-loader" data-testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -89,7 +89,7 @@ class PostsList extends Component {
         return this.renderPostsList()
       case statusConst.failure:
         return (
-          <>
+          <div className="post-err">
             <img
               className="post-error-img"
               src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677764087/alert-triangle_kppqoh.png"
@@ -105,7 +105,7 @@ class PostsList extends Component {
             >
               Try again
             </button>
-          </>
+          </div>
         )
       default:
         return null

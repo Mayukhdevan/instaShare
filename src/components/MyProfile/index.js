@@ -22,8 +22,8 @@ class MyProfile extends Component {
   myProfileApiSuccess = data => {
     const updatedData = {
       id: data.id,
-      userId: data.user_id,
-      userName: data.user_name,
+      userId: 'mayukh_devan',
+      userName: 'Mayukh',
       profilePic: data.profile_pic,
       followersCount: data.followers_count,
       followingCount: data.following_count,

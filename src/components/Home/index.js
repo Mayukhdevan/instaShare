@@ -44,6 +44,7 @@ class Home extends Component {
     this.setState({
       searchResult: updatedPosts,
       responseStatus: statusConst.success,
+      searchView: false,
     })
   }
 
@@ -91,13 +92,15 @@ class Home extends Component {
   renderPostAndStories = () => (
     <>
       <StoriesList />
-      <PostsList />
+      <div className="box-shadow">
+        <PostsList />
+      </div>
     </>
   )
 
   // Change data-testid to testid for testing
   renderLoader = () => (
-    <div className="loader-container" data-testid="loader">
+    <div className="loader-container search-loader" data-testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )

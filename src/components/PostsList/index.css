@@ -1,0 +1,23 @@
+.posts-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.post-err {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  min-height: 30vh;
+}
+.post-error-img {
+
+}
+.post-went-wrong-text {
+  text-align: center;
+  max-width: 250px;
+}
+.try-again-btn {
+  padding: .5rem 1rem;
+}

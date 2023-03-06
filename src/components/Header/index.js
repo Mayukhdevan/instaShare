@@ -81,6 +81,7 @@ class Header extends Component {
                 placeholder="Search Caption"
                 value={searchValue}
                 onChange={e => this.setState({searchValue: e.target.value})}
+                onKeyDown={e => e.key === 'Enter' && this.onSearchCaption()}
               />
               <button
                 className="search-btn"

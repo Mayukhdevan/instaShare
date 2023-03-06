@@ -66,6 +66,7 @@ class StoriesList extends Component {
           settings: {
             slidesToShow: 4,
             slidesToScroll: 4,
+            arrows: false,
           },
         },
       ],
@@ -84,7 +85,7 @@ class StoriesList extends Component {
 
   renderLoader = () => (
     // Change data-testid to testid for testing
-    <div className="loader-container" data-testid="loader">
+    <div className="loader-container story-loader" data-testid="loader">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
     </div>
   )
@@ -99,7 +100,7 @@ class StoriesList extends Component {
         return this.renderStoriesView()
       case statusConst.failure:
         return (
-          <>
+          <div className="story-err">
             <img
               className="post-error-img"
               src="https://res.cloudinary.com/dem9u6dox/image/upload/v1677764087/alert-triangle_kppqoh.png"
@@ -115,7 +116,7 @@ class StoriesList extends Component {
             >
               Try again
             </button>
-          </>
+          </div>
         )
       default:
         return null
